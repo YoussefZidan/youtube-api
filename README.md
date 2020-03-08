@@ -1,14 +1,14 @@
-# YoutubeApiTest
+# YoutubeApiApp
 
-    Angular Application that get APIs from YouTube and fetch it with the Data Associated with the API
+- Angular Application that get APIs from YouTube and fetch it with the Data Associated with the API
 
-# UsedTechnologies:
+# Used Technologies:
 
-1- Angular 9
-2- Angular Materials
-3- Ngx-Bootstrap
-4- Bootstrap 4
-5-ngx-moment
+- Angular 9
+- Angular Materials
+- Ngx-Bootstrap
+- Bootstrap 4
+- ngx-moment
 
 # Components:
 
@@ -25,8 +25,6 @@
 
 - Data Share Service
 - Query Service
-
-# App Include Routing (App Routing Module)...
 
 # Styling
 
