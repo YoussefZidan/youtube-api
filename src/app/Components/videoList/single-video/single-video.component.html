@@ -1,0 +1,39 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="row mt-5">
+    <div class="col-lg-6 mb-3">
+      <div class="img">
+        <img
+          src="{{ video.snippet.thumbnails.standard.url }}"
+          alt="{{ video.snippet.title }}"
+          width="100%"
+        />
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <h3>{{ video.snippet.title }}</h3>
+      <app-rating></app-rating>
+      <br />
+      <small class="text-muted mr-3">
+        {{ video.snippet.publishedAt | date: "longDate" }}
+      </small>
+      <small class="text-muted mr-3">
+        Duration:
+        {{ video.contentDetails.duration | amDuration: "minutes" }}
+      </small>
+      <small class="text-muted mr-3">
+        Views: {{ video.statistics.viewCount }}
+      </small>
+      <small class="text-muted">
+        Likes: {{ video.statistics.likeCount }}
+      </small>
+      <p class="mt-3">{{ video.snippet.description }}</p>
+      <button
+        mat-flat-button
+        color="{{ !added ? 'primary' : 'warn' }}"
+        (click)="toggle()"
+      >
+        {{ !added ? "Add to Favorite" : "Remove from Favorit" }}
+      </button>
+    </div>
+  </div>
+</div>

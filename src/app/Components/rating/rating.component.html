@@ -1,0 +1,19 @@
+<div>
+  <rating
+    [(ngModel)]="rate"
+    [max]="max"
+    [readonly]="isReadonly"
+    (onHover)="hoveringOver($event)"
+    (onLeave)="resetStar()"
+    [titles]="['one', 'two', 'three']"
+    (click)="save()"
+  ></rating>
+  <button
+    mat-flat-button
+    type="button"
+    (click)="clear()"
+    [disabled]="isReadonly"
+  >
+    Clear
+  </button>
+</div>
