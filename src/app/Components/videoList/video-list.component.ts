@@ -40,7 +40,7 @@ export class VideoListComponent implements OnInit {
       this.videos = JSON.parse(localStorage.getItem("DATA"));
       this.createDataSource(this.videos);
     }
-    // fetch data
+    // fetch data Function
     this.getVideos();
   }
 
@@ -48,7 +48,7 @@ export class VideoListComponent implements OnInit {
     // Fetching Data
     this.query
       .getData(
-        `${this.dataShare.baseURL}/activities?part=snippet%2CcontentDetails&channelId=${this.dataShare.channelID}&maxResults=10&key=${this.dataShare.APIKEY}`
+        `${this.dataShare.baseURL}/activities?part=snippet%2CcontentDetails&channelId=${this.dataShare.channelID}&maxResults=20&key=${this.dataShare.APIKEY}`
       )
       .subscribe(
         res => {
@@ -62,17 +62,20 @@ export class VideoListComponent implements OnInit {
         }
       );
   }
+  // Data Source Function
   createDataSource(data) {
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
+  // Filter Function
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  // View Single Video Page
   details(video) {
     let id;
     if (video.contentDetails.upload) {
@@ -80,7 +83,6 @@ export class VideoListComponent implements OnInit {
     } else {
       id = video.contentDetails.playlistItem.resourceId.videoId;
     }
-    this.dataShare.getVideoId(id);
     this.router.navigate([id]);
   }
 }

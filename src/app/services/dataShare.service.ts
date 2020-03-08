@@ -12,12 +12,8 @@ export class DataShareService {
   private favorit = new BehaviorSubject(0);
   favValue = this.favorit.asObservable();
 
-  videoId;
   constructor() {}
 
-  getVideoId(id) {
-    this.videoId = id;
-  }
   add() {
     this.favorit.next(this.favorit.value + 1);
   }
