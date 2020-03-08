@@ -19,8 +19,12 @@ export class RatingComponent implements OnInit {
 
   ngOnInit() {
     this.videoId = this.route.snapshot.params["id"];
-    if (localStorage.getItem(this.videoId + "-rate") !== null) {
-      this.rate = JSON.parse(localStorage.getItem(this.videoId));
+    this.route.params.subscribe(params => {
+      this.videoId = params.id;
+    });
+
+    if (localStorage.getItem(this.videoId + "-rate")) {
+      this.rate = JSON.parse(localStorage.getItem(this.videoId + "-rate"));
     }
   }
 

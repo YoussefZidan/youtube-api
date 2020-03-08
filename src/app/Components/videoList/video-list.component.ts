@@ -13,6 +13,7 @@ import { DataShareService } from "src/app/services/dataShare.service";
 })
 export class VideoListComponent implements OnInit {
   response;
+  videos;
   isLoading = true;
   displayedColumns: string[] = [
     "thumbnails",
@@ -36,8 +37,8 @@ export class VideoListComponent implements OnInit {
     // Check cashing and fetch data
     if (localStorage.getItem("DATA")) {
       this.isLoading = false;
-      let videos = JSON.parse(localStorage.getItem("DATA"));
-      this.createDataSource(videos);
+      this.videos = JSON.parse(localStorage.getItem("DATA"));
+      this.createDataSource(this.videos);
     }
     // fetch data
     this.getVideos();
@@ -47,13 +48,14 @@ export class VideoListComponent implements OnInit {
     // Fetching Data
     this.query
       .getData(
-        `${this.dataShare.baseURL}/activities?part=snippet%2CcontentDetails&channelId=${this.dataShare.channelID}&maxResults=50&key=${this.dataShare.APIKEY}`
+        `${this.dataShare.baseURL}/activities?part=snippet%2CcontentDetails&channelId=${this.dataShare.channelID}&maxResults=10&key=${this.dataShare.APIKEY}`
       )
       .subscribe(
         res => {
           this.isLoading = false;
-          localStorage.setItem("DATA", JSON.stringify(res.items));
-          this.createDataSource(res.items);
+          this.videos = res.items;
+          localStorage.setItem("DATA", JSON.stringify(this.videos));
+          this.createDataSource(this.videos);
         },
         (err: HttpErrorResponse) => {
           console.log(err.error);
