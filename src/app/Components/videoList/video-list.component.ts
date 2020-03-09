@@ -56,6 +56,7 @@ export class VideoListComponent implements OnInit {
           this.videos = res.items;
           localStorage.setItem("DATA", JSON.stringify(this.videos));
           this.createDataSource(this.videos);
+          console.log(this.videos);
         },
         (err: HttpErrorResponse) => {
           console.log(err.error);
@@ -65,8 +66,32 @@ export class VideoListComponent implements OnInit {
   // Data Source Function
   createDataSource(data) {
     this.dataSource = new MatTableDataSource(data);
+
+    // For Nested Objects
+    this.dataSource.filterPredicate = (data, filter: string) => {
+      const accumulator = (currentTerm, key) => {
+        return this.nestedFilterCheck(currentTerm, data, key);
+      };
+      const dataStr = Object.keys(data)
+        .reduce(accumulator, "")
+        .toLowerCase();
+      // Transform the filter by converting it to lowercase and removing whitespace.
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case "title":
+          return item.snippet.title;
+        case "publishedAt":
+          return item.snippet.publishedAt;
+        default:
+          return item[property];
+      }
+    };
   }
 
   // Filter Function
@@ -84,5 +109,19 @@ export class VideoListComponent implements OnInit {
       id = video.contentDetails.playlistItem.resourceId.videoId;
     }
     this.router.navigate([id]);
+  }
+
+  // Nested Object Ckeck
+  nestedFilterCheck(search, data, key) {
+    if (typeof data[key] === "object") {
+      for (const k in data[key]) {
+        if (data[key][k] !== null) {
+          search = this.nestedFilterCheck(search, data[key], k);
+        }
+      }
+    } else {
+      search += data[key];
+    }
+    return search;
   }
 }
