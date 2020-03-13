@@ -56,7 +56,6 @@ export class VideoListComponent implements OnInit {
           this.videos = res.items;
           localStorage.setItem("DATA", JSON.stringify(this.videos));
           this.createDataSource(this.videos);
-          console.log(this.videos);
         },
         (err: HttpErrorResponse) => {
           console.log(err.error);
